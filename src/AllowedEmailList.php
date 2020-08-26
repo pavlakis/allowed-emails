@@ -35,6 +35,28 @@ class AllowedEmailList implements AllowedListInterface
 
     /**
      * @param array<int, string> $emails
+     * @param array<int, string> $emailDomains
+     *
+     * @return AllowedEmailList
+     */
+    public static function withAllowedAliases(array $emails, array $emailDomains): self
+    {
+        return new self($emails, $emailDomains, true);
+    }
+
+    /**
+     * @param array<int, string> $emails
+     * @param array<int, string> $emailDomains
+     *
+     * @return AllowedEmailList
+     */
+    public static function withoutAllowedAliases(array $emails, array $emailDomains): self
+    {
+        return new self($emails, $emailDomains, false);
+    }
+
+    /**
+     * @param array<int, string> $emails
      */
     private function assertValidEmails(array $emails): void
     {

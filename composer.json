@@ -35,7 +35,7 @@
             "@run-static-analysis",
             "infection"
         ],
-        "run-static-analysis": "phpstan analyse src/ --level 7",
+        "run-static-analysis": "phpstan analyse src/ tests/ --level 7",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-html=tests/coverage/ ",
         "check-styles": "php-cs-fixer fix --dry-run src",
