@@ -69,10 +69,22 @@ final class AllowedEmailListTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_accept_invalid_emails(): void
+    public function it_does_not_accept_invalid_emails_on_whitelist(): void
     {
         $this->expectException(\RuntimeException::class);
-        new AllowedEmailList(['me@example'], ['example.com']);
+        new AllowedEmailList(['me@example'], ['example.com'], false);
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_validate_emails_on_whitelist_check(): void
+    {
+        $allowedEmailList = new AllowedEmailList(['me@example.com'], ['example.com'], true);
+
+        $this->expectException(\LogicException::class);
+
+        $allowedEmailList->isEmailAllowed('me+alias[at]example.com');
     }
 
     /**
@@ -81,6 +93,6 @@ final class AllowedEmailListTest extends TestCase
     public function it_does_not_accept_invalid_email_domains(): void
     {
         $this->expectException(\RuntimeException::class);
-        new AllowedEmailList(['me@example.com'], ['example']);
+        new AllowedEmailList(['me@example.com'], ['example'], false);
     }
 }

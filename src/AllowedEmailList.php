@@ -23,7 +23,7 @@ class AllowedEmailList implements AllowedListInterface
      * @param array<int, string> $emailDomains
      * @param bool               $allowAlias
      */
-    public function __construct(array $emails, array $emailDomains, bool $allowAlias = true)
+    public function __construct(array $emails, array $emailDomains, bool $allowAlias)
     {
         $this->assertValidEmails($emails);
         $this->emails = $emails;
@@ -75,7 +75,12 @@ class AllowedEmailList implements AllowedListInterface
 
     private function emailPosition(string $email, string $findNeedle): int
     {
-        return (int)strpos($email, $findNeedle);
+        $position = strpos($email, $findNeedle);
+        if (false === $position) {
+            throw new \LogicException(\sprintf('Character %s not found on email', $findNeedle));
+        }
+
+        return $position;
     }
 
     public function isEmailDomainAllowed(string $email): bool
