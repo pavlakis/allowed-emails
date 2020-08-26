@@ -1,0 +1,15 @@
+dist: focal
+language: php
+php:
+  - 7.4
+
+install:
+  - composer install
+
+script:
+  - composer test
+  - composer infection
+  - composer run-static-analysis
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

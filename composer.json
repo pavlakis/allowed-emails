@@ -32,6 +32,7 @@
         "pp": [
             "@test",
             "@check-styles",
+            "@run-static-analysis",
             "infection"
         ],
         "run-static-analysis": "phpstan analyse src/ --level 7",
