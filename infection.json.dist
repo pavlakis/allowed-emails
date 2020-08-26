@@ -5,7 +5,10 @@
         ]
     },
     "logs": {
-        "text": "tests/infection/infection.log"
+        "text": "tests/infection/infection.log",
+        "badge": {
+            "branch": "main"
+        }
     },
     "mutators": {
         "@default": true
