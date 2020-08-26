@@ -1,0 +1,76 @@
+<?php
+
+declare(strict_types=1);
+
+use PHPUnit\Framework\TestCase;
+use Pavlakis\Email\AllowedList\AllowedEmailList;
+
+final class AllowedEmailListTest extends TestCase
+{
+    private AllowedEmailList $allowedList;
+
+    protected function setUp(): void
+    {
+        $this->allowedList = new AllowedEmailList(['me@example.com', "o'neil@example.com"], ['example.com']);
+    }
+
+    /**
+     * @test
+     * @dataProvider emailListDataProvider
+     *
+     * @param string $email
+     * @param bool   $allowed
+     */
+    public function is_email_allowed(string $email, bool $allowed): void
+    {
+        $this->assertSame($allowed, $this->allowedList->isEmailAllowed($email));
+    }
+
+    public function emailListDataProvider(): array
+    {
+        return [
+            ['me@example.com', true],
+            ["o'neil@example.com", true],
+            ["me+alias@example.com", true],
+            ["invalid", false],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider domainListDataProvider
+     *
+     * @param string $email
+     * @param bool   $allowed
+     */
+    public function is_domain_allowed(string $email, bool $allowed): void
+    {
+        $this->assertSame($allowed, $this->allowedList->isEmailDomainAllowed($email));
+    }
+
+    public function domainListDataProvider(): array
+    {
+        return [
+            ['me@example.com', true],
+            ['me@spam.com', false],
+        ];
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_accept_invalid_emails(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        new AllowedEmailList(['me@example'], ['example.com']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_accept_invalid_email_domains(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        new AllowedEmailList(['me@example.com'], ['example']);
+    }
+}

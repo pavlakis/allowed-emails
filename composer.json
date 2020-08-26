@@ -1,0 +1,48 @@
+{
+    "name": "pavlakis/allowed-emails",
+    "description": "An email allowed list (whitelist) checker.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Antonis Pavlakis",
+            "email": "antonis@pavlakis.info"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Pavlakis\\Email\\AllowedList\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pavlakis\\Unit\\": "tests/phpunit/"
+        }
+    },
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "infection/infection": "^0.17.3",
+        "phpstan/phpstan": "^0.12.39"
+    },
+    "scripts": {
+        "pp": [
+            "@test",
+            "@check-styles",
+            "infection"
+        ],
+        "run-static-analysis": "phpstan analyse src/ --level 7",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-html=tests/coverage/ ",
+        "check-styles": "php-cs-fixer fix --dry-run src",
+        "fix-styles": "php-cs-fixer fix src"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        }
+    }
+}

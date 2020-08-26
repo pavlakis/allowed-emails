@@ -1,0 +1,1 @@
+{"php":"7.4.8","version":"2.16.4:v2.16.4#1023c3458137ab052f6ff1e09621a721bfdeca13","indent":"    ","lineEnding":"\n","rules":{"array_syntax":{"syntax":"short"},"ordered_imports":{"sort_algorithm":"length"}},"hashes":{"src\/AllowedListInterface.php":1876219255,"tests\/phpunit\/AllowedEmailListTest.php":4015120388,"src\/AllowedEmailList.php":1430054947}}
