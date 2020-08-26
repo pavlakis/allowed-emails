@@ -11,7 +11,7 @@ final class AllowedEmailListTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->allowedList = new AllowedEmailList(['me@example.com', "o'neil@example.com"], ['example.com'], true);
+        $this->allowedList = AllowedEmailList::withAllowedAliases(['me@example.com', "o'neil@example.com"], ['example.com']);
     }
 
     /**
@@ -26,6 +26,9 @@ final class AllowedEmailListTest extends TestCase
         $this->assertSame($allowed, $this->allowedList->isEmailAllowed($email));
     }
 
+    /**
+     * @return array<int, array<int, string|bool>>
+     */
     public function emailListDataProvider(): array
     {
         return [
@@ -41,7 +44,7 @@ final class AllowedEmailListTest extends TestCase
      */
     public function it_does_not_allow_email_alias(): void
     {
-        $allowedEmailList = new AllowedEmailList(['me@example.com'], ['example.com'], false);
+        $allowedEmailList = AllowedEmailList::withoutAllowedAliases(['me@example.com'], ['example.com']);
 
         $this->assertFalse($allowedEmailList->isEmailAllowed('me+alias@example.com'));
     }
@@ -58,6 +61,9 @@ final class AllowedEmailListTest extends TestCase
         $this->assertSame($allowed, $this->allowedList->isEmailDomainAllowed($email));
     }
 
+    /**
+     * @return array<int, array<int, string|bool>>
+     */
     public function domainListDataProvider(): array
     {
         return [
@@ -80,7 +86,7 @@ final class AllowedEmailListTest extends TestCase
      */
     public function it_does_not_validate_emails_on_whitelist_check(): void
     {
-        $allowedEmailList = new AllowedEmailList(['me@example.com'], ['example.com'], true);
+        $allowedEmailList = AllowedEmailList::withAllowedAliases(['me@example.com'], ['example.com']);
 
         $this->expectException(\LogicException::class);
 
