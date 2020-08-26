@@ -8,6 +8,7 @@ install:
 
 script:
   - composer test
+  - vendor/bin/phpunit --coverage-clover coverage.xml
   - vendor/bin/infection
   - composer run-static-analysis
 
