@@ -8,7 +8,7 @@ install:
 
 script:
   - composer test
-  - composer infection
+  - vendor/bin/infection
   - composer run-static-analysis
 
 after_success:
