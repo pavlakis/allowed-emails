@@ -16,17 +16,21 @@ class AllowedEmailList implements AllowedListInterface
      */
     private array $emailDomains;
 
+    private bool $allowAlias;
+
     /**
      * @param array<int, string> $emails
      * @param array<int, string> $emailDomains
+     * @param bool               $allowAlias
      */
-    public function __construct(array $emails, array $emailDomains)
+    public function __construct(array $emails, array $emailDomains, bool $allowAlias = true)
     {
         $this->assertValidEmails($emails);
         $this->emails = $emails;
 
         $this->assertValidDomains($emailDomains);
         $this->emailDomains = $emailDomains;
+        $this->allowAlias = $allowAlias;
     }
 
     /**
@@ -56,12 +60,22 @@ class AllowedEmailList implements AllowedListInterface
 
     public function isEmailAllowed(string $email): bool
     {
-        if (false !== strpos($email, '+')) {
-            $email = substr($email, 0, (int)strpos($email, '+'))
-                .substr($email, (int) strpos($email, '@'));
+        if ($this->allowAlias && false !== strpos($email, '+')) {
+            $email = $this->emailWithoutAlias($email);
         }
 
         return in_array($email, $this->emails, true);
+    }
+
+    private function emailWithoutAlias(string $email): string
+    {
+        return substr($email, 0, $this->emailPosition($email, '+'))
+            .substr($email, $this->emailPosition($email, '@'));
+    }
+
+    private function emailPosition(string $email, string $findNeedle): int
+    {
+        return (int)strpos($email, $findNeedle);
     }
 
     public function isEmailDomainAllowed(string $email): bool

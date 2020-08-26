@@ -11,7 +11,7 @@ final class AllowedEmailListTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->allowedList = new AllowedEmailList(['me@example.com', "o'neil@example.com"], ['example.com']);
+        $this->allowedList = new AllowedEmailList(['me@example.com', "o'neil@example.com"], ['example.com'], true);
     }
 
     /**
@@ -34,6 +34,16 @@ final class AllowedEmailListTest extends TestCase
             ["me+alias@example.com", true],
             ["invalid", false],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_allow_email_alias(): void
+    {
+        $allowedEmailList = new AllowedEmailList(['me@example.com'], ['example.com'], false);
+
+        $this->assertFalse($allowedEmailList->isEmailAllowed('me+alias@example.com'));
     }
 
     /**
