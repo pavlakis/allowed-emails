@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "php": "^7.4"
+        "php": ">=7.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
@@ -33,8 +33,7 @@
         "pp": [
             "@test",
             "@check-styles",
-            "@run-static-analysis",
-            "infection"
+            "@run-static-analysis"
         ],
         "run-static-analysis": "phpstan analyse src/ tests/ --level 7",
         "test": "phpunit --colors=always",
