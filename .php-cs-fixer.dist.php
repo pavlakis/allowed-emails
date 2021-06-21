@@ -1,6 +1,6 @@
 <?php
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         'no_superfluous_phpdoc_tags' => false,
         'single_line_throw' => false,
